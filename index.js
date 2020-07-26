@@ -59,7 +59,7 @@ client.on('ready', () => {
 client.on('message', message => {
 	if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
-	const args = message.content.slice(prefix.length).trim().split(/ +/);
+	const args = message.content.slice(config.prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
 
 	if (!client.commands.has(commandName)) return;
@@ -70,7 +70,8 @@ client.on('message', message => {
 		command.execute(message, args);
 	} catch (error) {
 		console.error(error);
-		message.reply('there was an error trying to execute that command!');
+		const embed = new Discord.MessageEmbed().setTitle(':red_circle: Error!').setColor(0xeb4034).setDescription('An error occured while trying to execute command! Please look into console for an detailed error message. When you fix  you stupid issuses just reload the command.');
+		message.channel.send(embed);
 	}
 });
 

@@ -1,3 +1,5 @@
+const Discord = require("discord.js");
+
 module.exports = {
 	name: 'reload',
 	description: 'Reloads a command',
@@ -8,7 +10,8 @@ module.exports = {
 			|| message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
 		if (!command) {
-			return message.channel.send(`There is no command with name or alias \`${commandName}\`, ${message.author}!`);
+			const embed = new Discord.MessageEmbed().setTitle(':red_circle: Error!').setColor(0xeb4034).setDescription(`An error occured while trying to reload command!`).addFields({name: 'Name', value: `${commandName}`});
+			return message.channel.send(embed);
 		}
 
 		delete require.cache[require.resolve(`./${command.name}.js`)];
@@ -20,6 +23,8 @@ module.exports = {
 		} catch (error) {
 			console.log(error);
 			message.channel.send(`There was an error while reloading a command \`${command.name}\`:\n\`${error.message}\``);
+			const embed = new Discord.MessageEmbed().setTitle(':red_circle: Error!').setColor(0xeb4034).setDescription('An error occured while trying to reload command!').addFields({name: 'Name', value: `${command.name}`}, {name: 'Message', value: `${error.message}`});
+			message.channel.send(embed);
 		}
 	},
 };
