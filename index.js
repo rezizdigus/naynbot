@@ -13,7 +13,7 @@ function activityLoop(timeout) {
 			activityLoop(timeout);
 		}, timeout);
 	} else if (activityState === 2) {
-		client.user.setActivity('for ;help!', {type: 'WATCHING'});
+		client.user.setActivity('Scarfy messing up his code!', {type: 'WATCHING'});
 		activityState = 3;
 		setTimeout(() => {
 			activityLoop(timeout);
