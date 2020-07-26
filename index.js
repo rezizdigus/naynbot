@@ -20,6 +20,18 @@ function activityLoop(timeout) {
 		}, timeout);
 	} else if (activityState === 3) {
 		client.user.setActivity('NyanBot!', {type: 'WATCHING'});
+		activityState = 4;
+		setTimeout(() => {
+			activityLoop(timeout);
+		}, timeout);
+	} else if (activityState === 4) {
+		client.user.setActivity('on Scarfy\'s Minecraft Server', {type: 'PLAYING'});
+		activityState = 5;
+		setTimeout(() => {
+			activityLoop(timeout);
+		}, timeout);
+	} else if (activityState === 5) {
+		client.user.setActivity('to cool vibes!', {type: 'LISTENING'});
 		activityState = 1;
 		setTimeout(() => {
 			activityLoop(timeout);
