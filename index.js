@@ -42,7 +42,7 @@ function activityLoop(timeout) {
 			activityLoop(timeout);
 		}, timeout);
 	} else if (activityState === 5) {
-		client.user.setActivity('to cool vibes!', {type: 'LISTENING'});
+		client.user.setActivity('cool vibes!', {type: 'LISTENING'});
 		activityState = 1;
 		setTimeout(() => {
 			activityLoop(timeout);
