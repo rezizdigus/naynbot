@@ -7,6 +7,19 @@ const config = require("./config.json");
 //command handler
 client.commands = new Discord.Collection();
 
+fs.readdir("./events/", (err, files) => {
+	const embed = new Discord.MessageEmbed().setTitle(':red_circle: Error!').setColor(0xeb4034).setDescription('An error occured while trying to execute this event!').addField('Error Message:', err);
+	if (err) return Discord.Guild.channels.get(config.log-Channel);
+	files.forEach(file => {
+	  if (!file.endsWith(".js")) return;
+	  const event = require(`./events/${file}`);
+	  let eventName = file.split(".")[0];
+
+	  client.on(eventName, event.bind(null, client));
+	  delete require.cache[require.resolve(`./events/${file}`)];
+	});
+  });
+
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
@@ -56,6 +69,8 @@ client.on('ready', () => {
 	activityLoop(15000);
 });
 
+//Command Handler
+
 client.on('message', message => {
 	if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
@@ -70,7 +85,7 @@ client.on('message', message => {
 		command.execute(message, args);
 	} catch (error) {
 		console.error(error);
-		const embed = new Discord.MessageEmbed().setTitle(':red_circle: Error!').setColor(0xeb4034).setDescription('An error occured while trying to execute command! Please look into console for an detailed error message. When you fix  you stupid issuses just reload the command.');
+		const embed = new Discord.MessageEmbed().setTitle(':red_circle: Error!').setColor(0xeb4034).setDescription('An error occured while trying to execute command! Please look into console for an detailed error message.');
 		message.channel.send(embed);
 	}
 });
